@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anonymer Chatroom</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #181818;
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .chat-container {
+            width: 100%;
+            max-width: 600px;
+            height: 80%;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-box {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+            display: flex;
+            flex-direction: column;
+            scrollbar-width: thin;
+            scrollbar-color: transparent transparent; /* Modern browser support */
+        }
+
+        /* Unsichtbare Scrollbar in Webkit-basierten Browsern */
+        .chat-box::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .chat-box::-webkit-scrollbar-thumb {
+            background: transparent;
+        }
+
+        .chat-message {
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #333;
+            border-radius: 8px;
+        }
+
+        .chat-message.user {
+            align-self: flex-end;
+            background-color: #444;
+        }
+
+        .chat-message.bot {
+            align-self: flex-start;
+            background-color: #222;
+        }
+
+        .input-container {
+            display: flex;
+            padding: 10px;
+            border-top: 2px solid #444;
+        }
+
+        input[type="text"] {
+            width: 85%;
+            padding: 10px;
+            font-size: 16px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 25px;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+        }
+
+        button {
+            background-color: #444;
+            border: none;
+            color: white;
+            padding: 10px;
+            border-radius: 25px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 16px;
+            display: none;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="chat-container">
+        <div class="chat-box" id="chatBox">
+            <div class="chat-message bot">Willkommen im anonymen Chat! Du kannst mit anderen Benutzern chatten.</div>
+        </div>
+
+        <div class="input-container">
+            <input type="text" id="messageInput" placeholder="Gib eine Nachricht ein..." onkeydown="handleKeyPress(event)">
+            <button onclick="sendMessage()">Senden</button>
+        </div>
+    </div>
+
+    <p id="errorMessage" class="error-message">Falsches Passwort!</p>
+
+    <script>
+        // Funktion zum Senden von Nachrichten
+        function sendMessage() {
+            const messageInput = document.getElementById('messageInput');
+            const chatBox = document.getElementById('chatBox');
+            const message = messageInput.value.trim();
+
+            // Wenn nichts eingegeben wurde, abbrechen
+            if (message === "") return;
+
+            // Zeige die Nachricht im Chat
+            const userMessage = document.createElement('div');
+            userMessage.classList.add('chat-message', 'user');
+            userMessage.textContent = message;
+            chatBox.appendChild(userMessage);
+
+            // Bot-Antwort simulieren
+            setTimeout(function() {
+                const botMessage = document.createElement('div');
+                botMessage.classList.add('chat-message', 'bot');
+                botMessage.textContent = "Antwort vom Bot: " + generateBotResponse();
+                chatBox.appendChild(botMessage);
+
+                // Scrolle nach unten
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }, 1000);
+
+            // Leere das Eingabefeld
+            messageInput.value = '';
+        }
+
+        // Funktion zum Handhaben von Enter drücken
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        // Funktion zur Generierung einer zufälligen Bot-Antwort
+        function generateBotResponse() {
+            const responses = [
+                "Das ist interessant!",
+                "Erzähl mir mehr!",
+                "Was denkst du darüber?",
+                "Das ist eine gute Frage!",
+                "Ich stimme dir zu!",
+                "Klingt spannend!"
+            ];
+            const randomIndex = Math.floor(Math.random() * responses.length);
+            return responses[randomIndex];
+        }
+    </script>
+
+</body>
+</html>

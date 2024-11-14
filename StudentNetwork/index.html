@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Passwort Eingabe</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1); /* fast unsichtbare Umrandung */
+            border-radius: 15px; /* Abgerundete Ecken für den gesamten Container */
+            background-color: rgba(0, 0, 0, 0.7);
+            transition: border 0.3s ease;
+        }
+
+        .container:hover {
+            border: 1px solid #ffffff; /* Sichtbare Umrandung bei Hover */
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        input[type="password"] {
+            padding: 12px 20px;
+            font-size: 16px;
+            width: 250px;
+            border: 2px solid rgba(255, 255, 255, 0.3); /* subtile Umrandung */
+            background-color: #333;
+            color: white;
+            border-radius: 25px; /* Abgerundete Ecken für das Passwortfeld */
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="password"]:focus {
+            border-color: #ffffff; /* Umrandung wird bei Fokussierung blau */
+            outline: none;
+        }
+
+        .error-message {
+            color: rgb(163, 6, 6);
+            font-size: 16px;
+            margin-top: 10px;
+            display: none; /* Standardmäßig ausgeblendet */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Password</h1>
+        <input type="password" id="passwordInput" placeholder="..." onkeydown="checkPassword(event)">
+        <p id="errorMessage" class="error-message">Wrong password</p>
+    </div>
+
+    <script>
+        function checkPassword(event) {
+            // Überprüfen, ob die Enter-Taste (KeyCode 13) gedrückt wurde
+            if (event.key === "Enter") {
+                var password = document.getElementById('passwordInput').value;
+                var errorMessage = document.getElementById('errorMessage');
+
+                // Wenn das Passwort falsch ist
+                if (password !== "123456") {
+                    errorMessage.style.display = "block"; // Zeige Fehlermeldung
+                } else {
+                    errorMessage.style.display = "none"; // Verstecke Fehlermeldung
+                    // Wenn das Passwort richtig ist, leite zur neuen Seite weiter
+                    window.location.href = "leck-eier.html";
+                }
+            }
+        }
+    </script>
+</body>
+</html>
